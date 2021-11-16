@@ -77,10 +77,12 @@ class ImageCache {
 const imageCache = new ImageCache();
 
 export default async function handler(
-  req: NextApiRequest,
+  req: NextApiRequest, // eslint-disable-line
   res: NextApiResponse
 ) {
-  const png = await imageCache.getPng();
-  res.setHeader('content-type', 'image/png');
-  res.status(200).send(png);
+  if (req.method === 'GET') {
+    const png = await imageCache.getPng();
+    res.setHeader('content-type', 'image/png');
+    res.status(200).send(png);
+  }
 }
