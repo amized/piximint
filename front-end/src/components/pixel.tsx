@@ -9,7 +9,6 @@ import styled from '@emotion/styled';
 import { Tile } from '../types';
 import useContract from 'hooks/use-contract';
 import { useWallet } from 'context/wallet';
-import { SketchPicker } from 'react-color';
 import Button from './button';
 import Spinner from './spinner';
 import PencilIcon from './pencil';
@@ -34,7 +33,7 @@ const Pixel = ({ pixel, showControls }: Props) => {
         try {
           setIsMinting(true);
           const txn = await contract.mintPixi(tokenId);
-          const result = await txn.wait();
+          await txn.wait();
         } catch (err) {
           setIsMinting(false);
         }
@@ -167,15 +166,6 @@ const MintSuccessMessage = styled.div`
   padding: 10px;
   border-radius: 8px;
   border: 2px solid #183153;
-`;
-
-const ColorPickerWrapper = styled.div`
-  //padding: 30px;
-  //background: #fff;
-  position: absolute;
-  bottom: -296px;
-  left: 0px;
-  z-index: 100;
 `;
 
 export default Pixel;

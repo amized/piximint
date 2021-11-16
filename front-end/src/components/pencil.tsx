@@ -14,6 +14,7 @@ const PencilIcon = (props: SVGProps<SVGSVGElement>) => {
         viewBox="0 0 512 512"
         enableBackground="new 0 0 512 512"
         xmlSpace="preserve"
+        onClick={props.onClick}
       >
         <g>
           <path

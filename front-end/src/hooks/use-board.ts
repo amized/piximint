@@ -37,11 +37,7 @@ const useBoard = () => {
 
   useEffect(() => {
     if (isInitialized) {
-      const handlePixelMinted = (
-        owner: string,
-        tokenId: BigNumber,
-        tiles: any
-      ) => {
+      const handlePixelMinted = (tiles: any) => {
         setTiles(makeTiles(tiles));
       };
 
@@ -67,6 +63,7 @@ const useBoard = () => {
         contract?.off('PixelColorChanged', handlePixelColorChanged);
       };
     }
+    return () => {};
   }, [contract, tiles, isInitialized]);
 
   console.log('The tiles?', tiles);

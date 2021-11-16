@@ -1,12 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ethers, Contract, BigNumber } from 'ethers';
 import { CONTRACT_ADDRESS } from '../../constants/contract';
 import contractAbi from '../../utils/PixiMint.json';
 import { bigNumToHexString } from '../../utils/utils';
 const API_KEY = process.env.ALCHEMY_API_KEY;
-const PRIVATE_KEY =
-  '8817c9b4e5af821053a661afca5ef0d7f0b632582bc78d4b40dc9a0a72092ad3';
 
 interface Item {
   owner: string;
@@ -83,6 +80,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log(req);
   const svg = await imageCache.getSvg();
   res.setHeader('content-type', 'image/svg+xml');
   res.status(200).send(svg);

@@ -4,7 +4,7 @@ import Button from './button';
 import styled from '@emotion/styled';
 
 const WalletConnect = () => {
-  const { connectWalletAction, currentAccount } = useWallet();
+  const { connectWalletAction } = useWallet();
 
   return (
     <Wrapper>

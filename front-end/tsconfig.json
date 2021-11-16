@@ -2,12 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "ESNext",
-    "lib": [
-      "dom",
-      "es2015",
-      "es2017",
-      "es2020"
-    ],
+    "lib": ["dom", "es2015", "es2017", "es2020"],
     "jsx": "preserve",
     "outDir": "./dist",
     "isolatedModules": true,
@@ -18,7 +13,7 @@
     "strictBindCallApply": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
@@ -36,12 +31,6 @@
     "baseUrl": "./src",
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

@@ -5,7 +5,6 @@ import React, {
   useContext,
   useCallback
 } from 'react';
-//import useContract from './use-contract';
 
 interface WalletContextType {
   checkIfWalletIsConnected(): void;
@@ -31,9 +30,9 @@ const WalletProvider: React.FC = ({ children }) => {
         setWrongChain(false);
       }
     }
-    const chainId = await ethereum.request({ method: 'eth_chainId' });
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     handleChainChanged(chainId);
-    ethereum.on('chainChanged', handleChainChanged);
+    window.ethereum.on('chainChanged', handleChainChanged);
   }, []);
 
   /*
@@ -73,12 +72,12 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const connectWalletAction = async () => {
     try {
-      if (!ethereum) {
+      if (!window.ethereum) {
         alert('Get MetaMask!');
         return;
       }
 
-      const accounts = await ethereum.request!({
+      const accounts = await window.ethereum.request!({
         method: 'eth_requestAccounts'
       });
 
