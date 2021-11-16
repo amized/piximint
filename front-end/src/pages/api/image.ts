@@ -27,18 +27,10 @@ class ImageCache {
       'rinkeby',
       API_KEY
     );
-    const signer = new ethers.Wallet(PRIVATE_KEY, alchemyProvider);
-    /*
-    const provider = new ethers.providers.JsonRpcProvider(
-      process.env.NEXT_PUBLIC_ETH_NETWORK_URL
-    );
-    const signer = provider.getSigner(0);
-
-    */
     this.contract = new ethers.Contract(
       CONTRACT_ADDRESS,
       contractAbi.abi,
-      signer
+      alchemyProvider
     );
     this.svgData = null;
     this.lastUpdateAt = null;

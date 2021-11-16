@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import Pixel from './pixel';
 import useBoard from '../hooks/use-board';
@@ -6,10 +6,6 @@ import { useEditor } from 'context/editor';
 import Button from './button';
 import WalletConnect from 'components/wallet-connect';
 import { useWallet } from 'context/wallet';
-
-interface Props {
-  numTiles: number;
-}
 
 type Mode = 'edit' | 'normal';
 
@@ -37,21 +33,17 @@ const PixiBoard = () => {
 
       <Wrapper>
         <List>
-          {tiles.length > 0 ? (
-            tiles.map((tile, index) => {
-              return (
-                <Pixel
-                  key={index}
-                  pixel={tile}
-                  showControls={
-                    editor.currentTokenId === null ? mode === 'edit' : false
-                  }
-                />
-              );
-            })
-          ) : (
-            <StaticBoard src={'/api/image'} />
-          )}
+          {tiles.map((tile, index) => {
+            return (
+              <Pixel
+                key={index}
+                pixel={tile}
+                showControls={
+                  editor.currentTokenId === null ? mode === 'edit' : false
+                }
+              />
+            );
+          })}
         </List>
       </Wrapper>
     </Outer>
@@ -80,23 +72,10 @@ const List = styled.div`
   flex-wrap: wrap;
 `;
 
-const StaticBoard = styled.img`
-  width: 100%;
-  display: block;
-`;
-
 const Wallet = styled.div`
   display: flex;
   justify-content: center;
   padding: 60px 0px;
-`;
-
-const Connetcted = styled.div`
-  width: 400px;
-  margin-bottom: 40px;
-  text-align: center;
-  background: #d9eefb;
-  padding: 20px;
 `;
 
 export default PixiBoard;

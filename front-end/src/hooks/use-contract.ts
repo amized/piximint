@@ -1,6 +1,6 @@
 import { useWallet } from 'context/wallet';
 import { ethers, Contract } from 'ethers';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { CONTRACT_ADDRESS } from '../constants/contract';
 import contractAbi from '../utils/PixiMint.json';
 
@@ -25,12 +25,14 @@ const useContract = () => {
       const signer = provider.getSigner();
       contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer);
     } else {
-      return null;
       const provider = new ethers.providers.JsonRpcProvider(
         process.env.NEXT_PUBLIC_ETH_NETWORK_URL
       );
-      const signer = provider.getSigner(0);
-      contract = new ethers.Contract(CONTRACT_ADDRESS, contractAbi.abi, signer);
+      contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        contractAbi.abi,
+        provider
+      );
     }
     return contract;
   }, [currentAccount, wrongChain]);
