@@ -1,0 +1,30 @@
+{
+  "name": "piximint",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/styled": "^11.3.0",
+    "bignumber.js": "^9.0.1",
+    "ethers": "^5.5.1",
+    "next": "12.0.3",
+    "react": "17.0.2",
+    "react-color": "^2.19.3",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.7",
+    "@types/react": "17.0.34",
+    "@types/react-color": "^3.0.6",
+    "eslint": "7",
+    "eslint-config-next": "12.0.3",
+    "prettier": "^2.4.1",
+    "typescript": "4.4.4"
+  }
+}
