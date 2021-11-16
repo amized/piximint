@@ -91,7 +91,7 @@ contract PixiMint is ERC721, Ownable {
         string(
           abi.encodePacked(
             '{"name": "Pixel ', x, ',', y, '"',
-            ', "description": "Piximint is a peice of collaborative artwork that lives on the Polygon blockchain. Each NFT is both the artwork itself and ownership over 1 of 64 pixels that make up the work. As a pixel owner you can choose the color of your pixel and change it at any time. To mint or modify your pixel, visit <a href=\'', _webUrl, '\'>', _webUrl, '</a>."',
+            ', "description": "Piximint is a peice of collaborative artwork that lives on the Polygon Network. Each NFT is both the artwork itself and ownership over 1 of 64 pixels that make up the work. As a pixel owner you can choose the color of your pixel and change it at any time. To mint or modify your pixel, visit <a href=\'', _webUrl, '\'>', _webUrl, '</a>."',
             ', "external_url": "', _webUrl ,'"',
             ', "image": "', _webUrl ,'/api/image"',
             ', "attributes": [',

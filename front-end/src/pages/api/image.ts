@@ -3,6 +3,8 @@ import { ethers, Contract, BigNumber } from 'ethers';
 import { CONTRACT_ADDRESS } from '../../constants/contract';
 import contractAbi from '../../utils/PixiMint.json';
 import { bigNumToHexString } from '../../utils/utils';
+import { createCanvas } from 'canvas';
+
 const API_KEY = process.env.ALCHEMY_API_KEY;
 
 interface Item {
@@ -17,7 +19,7 @@ const CACHE_DEBOUCNE = 10000;
 
 class ImageCache {
   contract: Contract;
-  svgData: string | null;
+  pngData: Buffer | null;
   lastUpdateAt: number | null;
   constructor() {
     const alchemyProvider = new ethers.providers.AlchemyProvider(
@@ -29,7 +31,7 @@ class ImageCache {
       contractAbi.abi,
       alchemyProvider
     );
-    this.svgData = null;
+    this.pngData = null;
     this.lastUpdateAt = null;
   }
 
@@ -38,39 +40,37 @@ class ImageCache {
     return txn as Array<Item>;
   }
 
-  async buildSvg() {
+  async buildPng() {
+    const width = IMAGE_SIZE;
+    const height = IMAGE_SIZE;
+
+    const canvas = createCanvas(width, height);
+    const context = canvas.getContext('2d');
+
     const data = await this.request();
-    const rects = data.map((item) => {
+    data.forEach((item) => {
       const tokenId = item.tokenId.toNumber();
       const x = tokenId % 8;
       const y = Math.floor(tokenId / 8);
-
-      return `<rect x="${x * PIXEL_SIZE}" y="${
-        y * PIXEL_SIZE
-      }" style="fill: ${bigNumToHexString(
-        item.color
-      )}" width="${PIXEL_SIZE}" height="${PIXEL_SIZE}" />`;
+      context.fillStyle = bigNumToHexString(item.color);
+      context.fillRect(x * PIXEL_SIZE, y * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
     });
 
-    this.svgData = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${IMAGE_SIZE} ${IMAGE_SIZE}" width="${IMAGE_SIZE}" height="${IMAGE_SIZE}">${rects.join(
-      ''
-    )}</svg>`;
+    const buffer = canvas.toBuffer('image/png');
+    this.pngData = buffer;
     this.lastUpdateAt = new Date().valueOf();
-    return this.svgData;
+    return this.pngData;
   }
 
-  async getSvg() {
-    if (this.svgData === null || this.lastUpdateAt === null) {
-      return await this.buildSvg();
+  async getPng() {
+    if (this.pngData === null || this.lastUpdateAt === null) {
+      return await this.buildPng();
     }
-
     const now = new Date().valueOf();
-
     if (now - this.lastUpdateAt > CACHE_DEBOUCNE) {
-      this.buildSvg();
+      this.buildPng();
     }
-
-    return this.svgData;
+    return this.pngData;
   }
 }
 
@@ -80,8 +80,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req);
-  const svg = await imageCache.getSvg();
-  res.setHeader('content-type', 'image/svg+xml');
-  res.status(200).send(svg);
+  const png = await imageCache.getPng();
+  res.setHeader('content-type', 'image/png');
+  res.status(200).send(png);
 }

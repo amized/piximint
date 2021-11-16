@@ -4,7 +4,8 @@ import useContract from 'hooks/use-contract';
 import { useEffect } from 'react';
 import PixiBoard from '../components/pixi-board';
 import styles from '../styles/Home.module.css';
-
+import { CONTRACT_ADDRESS } from 'constants/contract';
+import { description } from 'constants/content';
 const Main = () => {
   const contract = useContract();
 
@@ -25,27 +26,34 @@ const Main = () => {
           <h1 className={styles.title}>PIXIMINT</h1>
         </Header>
         <Intro>
-          <p>
-            PixiMint is a peice of collaborative artwork that lives on the
-            Polygon blockchain. Each NFT is both the artwork itself and
-            ownership over a particular pixel within the work. As a pixel owner
-            you can choose the color of your pixel and change it any time.
-          </p>
+          <p>{description}</p>
           <p>Go mint yourself a pixel for free + gas.</p>
         </Intro>
       </main>
 
       <PixiBoard />
 
-      <footer className={styles.footer}>
-        <a
-          href="http://amielzwier.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          By <span className={styles.logo}>Amiel Zwier</span>
-        </a>
-      </footer>
+      <Footer>
+        <Contract>
+          <a
+            href={`https://polygonscan.com/address/${CONTRACT_ADDRESS}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {' '}
+            Contract: {CONTRACT_ADDRESS}
+          </a>
+        </Contract>
+        <div>
+          <a
+            href="http://amielzwier.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            By Amiel Zwier
+          </a>
+        </div>
+      </Footer>
     </>
   );
 };
@@ -73,6 +81,18 @@ const Intro = styled.div`
       margin-bottom: 0;
     }
   }
+`;
+
+const Footer = styled.div`
+  padding: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Contract = styled.div`
+  font-size: 12px;
+  margin-bottom: 20px;
 `;
 
 export default Main;
