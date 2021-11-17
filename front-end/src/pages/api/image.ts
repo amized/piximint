@@ -41,7 +41,7 @@ class ImageCache {
   }
 
   async buildPng() {
-    const width = IMAGE_SIZE;
+    const width = 512;
     const height = IMAGE_SIZE;
 
     const canvas = createCanvas(width, height);
