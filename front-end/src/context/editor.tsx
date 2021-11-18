@@ -5,6 +5,7 @@ import { SketchPicker } from 'react-color';
 import Button from '../components/button';
 import Spinner from '../components/spinner';
 import { CONTRACT_ADDRESS } from 'constants/contract';
+import { openSeaLink } from 'utils/utils';
 
 interface EditorContextProps {
   currentTokenId: number | null;
@@ -92,7 +93,7 @@ export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
                 <OSLink>
                   <a
                     target="_blank"
-                    href={`${process.env.NEXT_PUBLIC_OPEN_SEA_URL}/assets/${CONTRACT_ADDRESS}/${currentTokenId}`}
+                    href={openSeaLink(currentTokenId)}
                     rel="noreferrer"
                   >
                     View on opensea

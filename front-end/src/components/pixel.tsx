@@ -13,6 +13,7 @@ import Button from './button';
 import Spinner from './spinner';
 import PencilIcon from './pencil';
 import { useEditor } from 'context/editor';
+import { openSeaLink } from 'utils/utils';
 
 interface Props {
   pixel: Tile;
@@ -73,8 +74,7 @@ const Pixel = ({ pixel, showControls }: Props) => {
                   <MintButton mode="dark" onClick={() => doMint(pixel.tokenId)}>
                     Mint
                   </MintButton>
-                ) : null}
-                {ownedByMe ? (
+                ) : ownedByMe ? (
                   <EditWrapper
                     onClick={() => {
                       editor.startEdit(pixel.tokenId, pixel.color);
@@ -83,7 +83,15 @@ const Pixel = ({ pixel, showControls }: Props) => {
                   >
                     <PencilIcon />
                   </EditWrapper>
-                ) : null}
+                ) : (
+                  <OSLink
+                    href={openSeaLink(pixel.tokenId)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {' '}
+                  </OSLink>
+                )}
               </Centered>
             ) : null}
           </Inner>
@@ -166,6 +174,15 @@ const MintSuccessMessage = styled.div`
   padding: 10px;
   border-radius: 8px;
   border: 2px solid #183153;
+`;
+
+const OSLink = styled.a`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: block;
 `;
 
 export default Pixel;

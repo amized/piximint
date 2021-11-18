@@ -34,19 +34,23 @@ const PixiBoard = () => {
       </Wallet>
 
       <Wrapper>
-        <List>
-          {tiles.map((tile, index) => {
-            return (
-              <Pixel
-                key={index}
-                pixel={tile}
-                showControls={
-                  editor.currentTokenId === null ? mode === 'edit' : false
-                }
-              />
-            );
-          })}
-        </List>
+        {tiles.length > 0 ? (
+          <List>
+            {tiles.map((tile, index) => {
+              return (
+                <Pixel
+                  key={index}
+                  pixel={tile}
+                  showControls={
+                    editor.currentTokenId === null ? mode === 'edit' : false
+                  }
+                />
+              );
+            })}
+          </List>
+        ) : (
+          <PlaceholderImg src="/api/image" alt="The pixmint board" />
+        )}
       </Wrapper>
     </Outer>
   );
@@ -78,6 +82,12 @@ const Wallet = styled.div`
   display: flex;
   justify-content: center;
   padding: 60px 0px;
+`;
+
+const PlaceholderImg = styled.img`
+  display: block;
+  width: 100%;
+  height: auto;
 `;
 
 export default PixiBoard;

@@ -67,6 +67,7 @@ const Header = styled.div`
 `;
 const Intro = styled.div`
   margin: 80px 0;
+  padding: 0px 15px;
   line-height: 1.5;
   font-size: 1.5rem;
   display: flex;

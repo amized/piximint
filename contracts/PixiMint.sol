@@ -18,6 +18,7 @@ contract PixiMint is ERC721, Ownable {
   Counters.Counter private _tokenIds;
   uint _numTiles;
   string private _webUrl;
+
   // We create a mapping from the nft's tokenId => that NFTs attributes.
   mapping(uint256 => uint) public tokenColors;
 
@@ -64,10 +65,8 @@ contract PixiMint is ERC721, Ownable {
     return pixels;
   }
 
-  // Users would be able to hit this function and get their NFT based on the
-  // characterId they send in!
   function mintPixi(uint256 tokenId) external {
-    // The magical function! Assigns the tokenId to the caller's wallet address.
+    require(tokenId < _numTiles, "Invalid token number");
     _safeMint(msg.sender, tokenId);
     Pixel[] memory board = getBoard();
     emit PixelMinted(msg.sender, tokenId, board);
@@ -75,7 +74,7 @@ contract PixiMint is ERC721, Ownable {
 
   function colorPixi(uint color, uint256 tokenId) external {
     require(color <= 0xFFFFFF, "Color out of range");
-    require(ownerOf(tokenId) == msg.sender, "You do not have permissinion to alter this pixi");
+    require(ownerOf(tokenId) == msg.sender, "You do not have permission to alter this pixel");
     tokenColors[tokenId] = color;
     emit PixelColorChanged(tokenId, color);
   }
@@ -90,7 +89,7 @@ contract PixiMint is ERC721, Ownable {
         string(
           abi.encodePacked(
             '{"name": "Pixel ', x, ',', y, '"',
-            ', "description": "Piximint is a peice of collaborative artwork that lives on the Polygon Network. Each NFT is both the artwork itself and ownership over 1 of 64 pixels that make up the work. As a pixel owner you can choose the color of your pixel and change it at any time. To mint or modify your pixel, visit <a href=\'', _webUrl, '\'>', _webUrl, '</a>."',
+            ', "description": "Piximint is a peice of collaborative artwork that lives on the Ethereum/Polygon network. Each NFT is both the artwork itself and ownership over 1 of 64 pixels that make up the work. As a pixel owner you can choose the color of your pixel and change it at any time. To mint or modify your pixel, visit <a href=\'', _webUrl, '\'>', _webUrl, '</a>."',
             ', "external_url": "', _webUrl ,'"',
             ', "image": "', _webUrl ,'/api/image"',
             ', "attributes": [',
