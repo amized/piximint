@@ -38,8 +38,8 @@ const useBoard = () => {
   useEffect(() => {
     if (isInitialized) {
       const handlePixelMinted = (
-        sender: string,
-        tokenId: BigNumber,
+        _sender: string,
+        _tokenId: BigNumber,
         tiles: any
       ) => {
         setTiles(makeTiles(tiles));

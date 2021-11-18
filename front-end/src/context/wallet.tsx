@@ -40,7 +40,7 @@ const WalletProvider: React.FC = ({ children }) => {
   /*
    * Since this method will take some time, make sure to declare it as async
    */
-  const checkIfWalletIsConnected = async () => {
+  const checkIfWalletIsConnected = useCallback(async () => {
     try {
       //const provider = await detectEthereumProvider();
       const { ethereum } = window;
@@ -68,7 +68,7 @@ const WalletProvider: React.FC = ({ children }) => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [checkChain]);
 
   const connectWalletAction = async () => {
     try {
@@ -93,7 +93,7 @@ const WalletProvider: React.FC = ({ children }) => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-  }, []);
+  }, [checkIfWalletIsConnected]);
 
   return (
     <WalletContext.Provider
