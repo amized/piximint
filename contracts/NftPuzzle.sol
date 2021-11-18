@@ -85,8 +85,6 @@ contract NftPuzzle is ERC721 {
       attackDamage: defaultCharacters[_characterIndex].attackDamage
     });
 
-    console.log("Minted NFT w/ tokenId %s and characterIndex %s", newItemId, _characterIndex);
-
     // Keep an easy way to see who owns what NFT.
     nftHolders[msg.sender] = newItemId;
 

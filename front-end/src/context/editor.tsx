@@ -33,7 +33,6 @@ export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
         const txn = await contract.colorPixi(hexValue, currentTokenId);
         const result = await txn.wait();
         setStatus('success');
-        console.log('The result', result);
       } catch (err) {
         setStatus('normal');
       }

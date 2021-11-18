@@ -67,7 +67,6 @@ contract PixiMint is ERC721, Ownable {
   // Users would be able to hit this function and get their NFT based on the
   // characterId they send in!
   function mintPixi(uint256 tokenId) external {
-    console.log("the token id", tokenId);
     // The magical function! Assigns the tokenId to the caller's wallet address.
     _safeMint(msg.sender, tokenId);
     Pixel[] memory board = getBoard();

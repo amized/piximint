@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy:local": "npx hardhat run scripts/deploy.js --network localhost && cp ./artifacts/contracts/PixiMint.sol/PixiMint.json ./front-end/piximint/src/utils/PixiMint.json",
-    "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network rinkeby && cp ./artifacts/contracts/PixiMint.sol/PixiMint.json ./front-end/piximint/src/utils/PixiMint.json"
+    "deploy:rinkeby": "npx hardhat run scripts/deploy.js --network localhost && cp ./artifacts/contracts/PixiMint.sol/PixiMint.json ./front-end/piximint/src/utils/PixiMint.json"
   },
   "keywords": [],
   "author": "",
@@ -20,7 +20,6 @@
     "hardhat": "^2.6.8"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.3.2",
-    "dotenv": "^10.0.0"
+    "@openzeppelin/contracts": "^4.3.2"
   }
 }

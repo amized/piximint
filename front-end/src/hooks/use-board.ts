@@ -37,7 +37,11 @@ const useBoard = () => {
 
   useEffect(() => {
     if (isInitialized) {
-      const handlePixelMinted = (tiles: any) => {
+      const handlePixelMinted = (
+        sender: string,
+        tokenId: BigNumber,
+        tiles: any
+      ) => {
         setTiles(makeTiles(tiles));
       };
 
@@ -65,9 +69,6 @@ const useBoard = () => {
     }
     return () => {};
   }, [contract, tiles, isInitialized]);
-
-  console.log('The tiles?', tiles);
-
   return tiles;
 };
 

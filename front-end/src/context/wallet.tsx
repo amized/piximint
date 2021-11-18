@@ -12,6 +12,7 @@ interface WalletContextType {
   currentAccount: string | null;
   currentChain: string | null;
   wrongChain: boolean;
+  hasEthereum: boolean;
 }
 
 const WalletContext = createContext<WalletContextType>({} as WalletContextType);
@@ -20,6 +21,7 @@ const WalletProvider: React.FC = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState(null);
   const [currentChain, setCurrentChain] = useState<string | null>(null);
   const [wrongChain, setWrongChain] = useState(false);
+  const [hasEthereum, setHasEthereum] = useState(true);
 
   const checkChain = useCallback(async () => {
     function handleChainChanged(_chainId: string) {
@@ -44,11 +46,9 @@ const WalletProvider: React.FC = ({ children }) => {
       const { ethereum } = window;
 
       if (!ethereum) {
-        console.log('Make sure you have MetaMask!');
+        setHasEthereum(false);
         return;
       } else {
-        console.log('We have the ethereum object', ethereum);
-
         /*
          * Check if we're authorized to access the user's wallet
          */
@@ -73,7 +73,9 @@ const WalletProvider: React.FC = ({ children }) => {
   const connectWalletAction = async () => {
     try {
       if (!window.ethereum) {
-        alert('Get MetaMask!');
+        alert(
+          'You need to install metamask to connect your wallet to our app. Please visit their site at https://metamask.io/.'
+        );
         return;
       }
 
@@ -93,29 +95,6 @@ const WalletProvider: React.FC = ({ children }) => {
     checkIfWalletIsConnected();
   }, []);
 
-  useEffect(() => {
-    const { ethereum } = window;
-
-    const checkChanged = async () => {
-      function handleChainChanged(_chainId: string) {
-        setCurrentChain(_chainId);
-        if (_chainId !== process.env.NEXT_PUBLIC_ETH_NETWORK_ID) {
-          setWrongChain(true);
-        } else {
-          setWrongChain(false);
-        }
-      }
-
-      if (ethereum) {
-        const chainId = await ethereum.request({ method: 'eth_chainId' });
-        handleChainChanged(chainId);
-        ethereum.on('chainChanged', handleChainChanged);
-      }
-    };
-
-    checkChanged();
-  }, []);
-
   return (
     <WalletContext.Provider
       value={{
@@ -123,7 +102,8 @@ const WalletProvider: React.FC = ({ children }) => {
         connectWalletAction,
         currentAccount,
         currentChain,
-        wrongChain
+        wrongChain,
+        hasEthereum
       }}
     >
       {children}

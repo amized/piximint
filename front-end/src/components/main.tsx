@@ -13,7 +13,6 @@ const Main = () => {
     const getData = async () => {
       if (contract) {
         const txn = await contract.getBoard();
-        console.log('The txn???', txn);
       }
     };
     getData();

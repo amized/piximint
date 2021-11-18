@@ -13,12 +13,14 @@ const PixiBoard = () => {
   const [mode, setMode] = useState<Mode>('normal');
   const editor = useEditor();
   const tiles = useBoard();
-  const { currentAccount, wrongChain } = useWallet();
+  const { currentAccount, wrongChain, hasEthereum } = useWallet();
   return (
     <Outer>
       <Wallet>
         {currentAccount === null ? (
           <WalletConnect />
+        ) : hasEthereum === false ? (
+          <div>Please install metamask</div>
         ) : wrongChain ? (
           <WrongNetwork>
             You are connected to the wrong network. In metamask, change your
