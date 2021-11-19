@@ -4,7 +4,6 @@ import useContract from 'hooks/use-contract';
 import { SketchPicker } from 'react-color';
 import Button from '../components/button';
 import Spinner from '../components/spinner';
-import { CONTRACT_ADDRESS } from 'constants/contract';
 import { openSeaLink } from 'utils/utils';
 
 interface EditorContextProps {
@@ -34,6 +33,8 @@ export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
         const txn = await contract.colorPixi(hexValue, currentTokenId);
         const result = await txn.wait();
         setStatus('success');
+        // Make a request for the image to trigger an update of the cache
+        fetch('/api/image');
       } catch (err) {
         setStatus('normal');
       }
