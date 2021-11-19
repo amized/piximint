@@ -75,7 +75,7 @@ const Intro = styled.div`
   align-items: center;
   flex-direction: column;
   p {
-    max-width: 700px;
+    max-width: 720px;
     text-align: center;
     &:last-child {
       margin-bottom: 0;

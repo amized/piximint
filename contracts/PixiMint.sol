@@ -6,20 +6,35 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 // Helper functions OpenZeppelin provides.
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import '@openzeppelin/contracts/access/Ownable.sol';
 
 import "./libraries/Base64.sol";
 
-contract PixiMint is ERC721, Ownable {
+function uint2hexstr(uint i) pure returns (string memory) {
+    if (i == 0) return "0";
+    uint j = i;
+    uint length;
+    while (j != 0) {
+        length++;
+        j = j >> 4;
+    }
+    uint mask = 15;
+    bytes memory bstr = new bytes(length);
+    uint k = length;
+    while (i != 0) {
+        uint curr = (i & mask);
+        bstr[--k] = curr > 9 ?
+            bytes1(uint8(55 + curr)) :
+            bytes1(uint8(48 + curr)); // 55 = 65 - 10
+        i = i >> 4;
+    }
+    return string(bstr);
+}
 
-  using Counters for Counters.Counter;
-  Counters.Counter private _tokenIds;
+contract PixiMint is ERC721, Ownable {
   uint _numTiles;
   string private _webUrl;
-
-  // We create a mapping from the nft's tokenId => that NFTs attributes.
   mapping(uint256 => uint) public tokenColors;
 
   event PixelMinted(address sender, uint256 tokenId, Pixel[] board);
@@ -31,11 +46,7 @@ contract PixiMint is ERC721, Ownable {
     uint256 tokenId;
   }
 
-
   constructor(uint numTiles) ERC721("PixiMint", "PXMNT") {
-    // Loop through all the characters, and save their values in our contract so
-    // we can use them later when we mint our NFTs.
-    _tokenIds.increment();
     for(uint i = 0; i < numTiles; i += 1) {
       tokenColors[i] = 0x000000;
     }
@@ -73,17 +84,16 @@ contract PixiMint is ERC721, Ownable {
   }
 
   function colorPixi(uint color, uint256 tokenId) external {
-    require(color <= 0xFFFFFF, "Color out of range");
+    require(color < 0xFFFFFF, "Color out of range");
     require(ownerOf(tokenId) == msg.sender, "You do not have permission to alter this pixel");
     tokenColors[tokenId] = color;
     emit PixelColorChanged(tokenId, color);
   }
 
-
   function tokenURI(uint256 _tokenId) public view override returns (string memory) {
     string memory x = Strings.toString(_tokenId % 8);
     string memory y = Strings.toString(_tokenId / 8);
-    uint color = tokenColors[_tokenId];
+    string memory color = uint2hexstr(tokenColors[_tokenId]);
     string memory json = Base64.encode(
       bytes(
         string(
@@ -95,7 +105,7 @@ contract PixiMint is ERC721, Ownable {
             ', "attributes": [',
               '{ "display_type": "number",  "trait_type": "X coord",  "value": ', x ,'},',
               '{ "display_type": "number",  "trait_type": "Y coord",  "value": ', y ,'},',
-              '{ "display_type": "number",  "trait_type": "Color",  "value": ', Strings.toString(color) ,'}',
+              '{ "trait_type": "Color", "value": ', color ,'}',
             ']}'
           )
         )
