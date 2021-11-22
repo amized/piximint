@@ -5,7 +5,7 @@ const main = async () => {
   await contract.deployed();
 
   const txn = await contract.mintPixi(1);
-  const txn2 = await contract.colorPixi(0xFF00FF, 1);
+  const txn2 = await contract.colorPixi(0xFFA0FF, 1);
   tokenUri = await contract.tokenURI(1);
   console.log(tokenUri);
 };

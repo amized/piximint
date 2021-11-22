@@ -103,9 +103,8 @@ contract PixiMint is ERC721, Ownable {
             ', "external_url": "', _webUrl ,'"',
             ', "image": "', _webUrl ,'/api/image"',
             ', "attributes": [',
-              '{ "display_type": "number",  "trait_type": "X coord",  "value": ', x ,'},',
-              '{ "display_type": "number",  "trait_type": "Y coord",  "value": ', y ,'},',
-              '{ "trait_type": "Color", "value": ', color ,'}',
+              '{ "trait_type": "Coordinates",  "value": "', x, ', ', y ,'"},',
+              '{ "trait_type": "Color", "value": "', color ,'"}',
             ']}'
           )
         )
