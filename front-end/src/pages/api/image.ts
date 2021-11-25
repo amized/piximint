@@ -23,7 +23,7 @@ class ImageCache {
   lastUpdateAt: number | null;
   constructor() {
     const alchemyProvider = new ethers.providers.AlchemyProvider(
-      'rinkeby',
+      process.env.NEXT_PUBLIC_ETH_NETWORK_NAME,
       API_KEY
     );
     this.contract = new ethers.Contract(
@@ -36,8 +36,14 @@ class ImageCache {
   }
 
   private async request() {
-    const txn = await this.contract.getBoard();
-    return txn as Array<Item>;
+    try {
+      const txn = await this.contract.getBoard();
+      return txn as Array<Item>;
+    } catch (err) {
+      console.log('The error');
+      console.log(err);
+      throw err;
+    }
   }
 
   async buildPng() {
