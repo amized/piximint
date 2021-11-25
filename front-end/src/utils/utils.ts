@@ -6,5 +6,5 @@ export const bigNumToHexString = (color: BigNumber) => {
 };
 
 export const openSeaLink = (tokenId: number) => {
-  return `${process.env.NEXT_PUBLIC_OPEN_SEA_URL}/assets/${CONTRACT_ADDRESS}/${tokenId}`;
+  return `${process.env.NEXT_PUBLIC_OPEN_SEA_URL}/${CONTRACT_ADDRESS}/${tokenId}`;
 };
