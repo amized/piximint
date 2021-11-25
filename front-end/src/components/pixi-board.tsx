@@ -13,7 +13,7 @@ const PixiBoard = () => {
   const [mode, setMode] = useState<Mode>('normal');
   const editor = useEditor();
   const tiles = useBoard();
-  const { currentAccount, wrongChain, hasEthereum } = useWallet();
+  const { currentAccount, wrongChain, hasEthereum, changeChain } = useWallet();
   return (
     <Outer>
       <Wallet>
@@ -23,8 +23,11 @@ const PixiBoard = () => {
           <div>Please install metamask</div>
         ) : wrongChain ? (
           <WrongNetwork>
-            You are connected to the wrong network. In metamask, change your
-            network to <b>Polygon Mainnet</b>.
+            You are connected to the wrong network. Please{' '}
+            <ChangeChain onClick={changeChain}>
+              change your network to Polygon Mainnet
+            </ChangeChain>
+            .
           </WrongNetwork>
         ) : mode === 'normal' ? (
           <Button onClick={() => setMode('edit')}>Edit / Mint</Button>
@@ -88,6 +91,12 @@ const PlaceholderImg = styled.img`
   display: block;
   width: 100%;
   height: auto;
+`;
+
+const ChangeChain = styled.span`
+  text-decoration: underline;
+  cursor: pointer;
+  user-select: none;
 `;
 
 export default PixiBoard;

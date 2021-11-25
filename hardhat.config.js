@@ -27,6 +27,10 @@ module.exports = {
     rinkeby: {
       url: process.env.RINKEBY_URL,
       accounts: [process.env.RINKEBY_ACCOUNT]
+    },
+    polygon: {
+      url: process.env.POLY_URL,
+      accounts: [process.env.POLY_ACCOUNT]
     }
   }
 };

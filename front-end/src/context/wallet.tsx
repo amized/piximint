@@ -9,6 +9,7 @@ import React, {
 interface WalletContextType {
   checkIfWalletIsConnected(): void;
   connectWalletAction(): void;
+  changeChain(): void;
   currentAccount: string | null;
   currentChain: string | null;
   wrongChain: boolean;
@@ -91,6 +92,20 @@ const WalletProvider: React.FC = ({ children }) => {
     }
   };
 
+  const changeChain = async () => {
+    if (!window.ethereum) {
+      alert(
+        'You need to install metamask to connect your wallet to our app. Please visit their site at https://metamask.io/.'
+      );
+      return;
+    }
+
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: process.env.NEXT_PUBLIC_ETH_NETWORK_ID }]
+    });
+  };
+
   useEffect(() => {
     checkIfWalletIsConnected();
   }, [checkIfWalletIsConnected]);
@@ -103,6 +118,7 @@ const WalletProvider: React.FC = ({ children }) => {
         currentAccount,
         currentChain,
         wrongChain,
+        changeChain,
         hasEthereum
       }}
     >
